@@ -13,7 +13,7 @@ def en_ru_translator(filename: str='words.txt'):
         with open(filename, 'r', encoding='UTF-8') as file:
             for word in file.read().split():
                 translation = translator.translate(word, dest='ru')
-                en_ru_file.write(f'{word} {translation.text.capitalize}\n')
+                en_ru_file.write(f'{word} {translation.text}\n')
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')
