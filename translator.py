@@ -6,6 +6,16 @@
 
 from googletrans import Translator
 
+def progress(func):
+    '''Декоратор, сигнализирующий, что функция не зависла'''
+    def inner():
+        print(f'Выполняется функция {func.__name__}. Это может занять несколько минут.')
+        result = func()
+        print(f'Функция {func.__name__} успешно выполнена\n')
+        return result
+    return inner
+
+@progress
 def en_ru_translator(filename: str='words.txt'):
     '''Функция переводит все слова в переданном файле и создает новый файл-словарь'''
     translator = Translator()

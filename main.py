@@ -1,14 +1,11 @@
-import textparser, words_from_text, translator, wordsfilter
+import textparser, words_from_text, translator
 
 def main():
-    print('Программа выполняется...')
 
-    #textparser.parser()
-    #words_from_text.search()
-    translator.en_ru_translator()
-    wordsfilter.filter()
+    textparser.parser()
+    words_from_text.search()
+    #translator.en_ru_translator()
 
-    print('Программа выполнена.')
 
 if __name__ == '__main__':
     main()
