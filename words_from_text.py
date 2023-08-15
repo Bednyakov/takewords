@@ -12,7 +12,7 @@ def search(filename: str='text.txt'):
 
             for word in words.findall(file.read()):
                 if word.isalpha() and len(word) > 3:
-                    setwords.add(word.capitalize()) #  Фильтруем слова от повторений с помощью множества
+                    setwords.add(word.capitalize())  # Фильтруем слова от повторений с помощью множества
 
             for word in setwords:
                 wordsfile.writelines(f'{word}\n')

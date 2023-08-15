@@ -5,13 +5,14 @@
 '''Модуль для перевода слов из текстового файла и создания нового файла'''
 
 from googletrans import Translator
+import os
 
 def progress(func):
     '''Декоратор, сигнализирующий, что функция не зависла'''
     def inner():
         print(f'Выполняется функция {func.__name__}. Это может занять несколько минут.')
         result = func()
-        print(f'Функция {func.__name__} успешно выполнена\n')
+        print(f'Функция {func.__name__} успешно выполнена.\n')
         return result
     return inner
 
@@ -24,6 +25,10 @@ def en_ru_translator(filename: str='words.txt'):
             for word in file.read().split():
                 translation = translator.translate(word, dest='ru')
                 en_ru_file.write(f'{word} {translation.text}\n')
+
+    os.remove('webfile.html')  # Удаляем уже ненужные файлы
+    os.remove('text.txt')
+    os.remove('words.txt')
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')

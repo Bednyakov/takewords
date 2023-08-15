@@ -4,7 +4,7 @@ def main():
 
     textparser.parser()
     words_from_text.search()
-    #translator.en_ru_translator()
+    translator.en_ru_translator()
 
 
 if __name__ == '__main__':
