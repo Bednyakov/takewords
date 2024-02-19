@@ -1,4 +1,4 @@
-import random, textparser, words_from_text, translator
+import random
 from tkinter import *
 from tkinter import ttk
 
