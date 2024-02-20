@@ -1,6 +1,7 @@
 '''Модуль для создания файла со словами'''
 
 import re
+from parsers import translator
 
 def search(filename: str='text.txt'):
     '''Функция ищет слова в файле с помощью регулярного выражения
@@ -16,7 +17,9 @@ def search(filename: str='text.txt'):
 
             for word in setwords:
                 wordsfile.writelines(f'{word}\n')
+    print('3 Ok')
 
+    translator.en_ru_translator()
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')

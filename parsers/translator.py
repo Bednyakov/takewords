@@ -25,6 +25,7 @@ def en_ru_translator(filename: str='words.txt'):
             for word in file.read().split():
                 translation = translator.translate(word, dest='ru')
                 en_ru_file.write(f'{word} {translation.text}\n')
+    print('4 Ok')
 
     os.remove('webfile.html')  # Удаляем уже ненужные файлы
     os.remove('text.txt')

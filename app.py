@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from parsers import textparser, words_from_text, translator
 
 app = Flask(__name__)
@@ -6,19 +6,20 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #print(request.form['message'])
-    print(request.form.get('message'))
+    url = ''
     if request.method == 'POST':
         url = request.form.get('message')
 
-    if textparser.parser(url) != False:
-        words_from_text.search()
-        print('Выполняется перевод. Это может занять пару минут.')
-        translator.en_ru_translator()
-        print('Перевод завершен!')
-        render_template('words.html')
+        textparser.parser(url)
+        return redirect('/translate')
 
-    return render_template('index.html', message='client_message')
+
+    return render_template('index.html', message=url)
+
+@app.route('/translate', methods=['GET', 'POST'])
+@app.route('/translate/', methods=['GET', 'POST'])
+def translate():
+    render_template('words.html')
 
 
 
