@@ -18,6 +18,8 @@ def index():
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/translate/', methods=['GET', 'POST'])
 def translate():
+    en_word = 'Упс...'
+    ru_word = 'Словарь не создан.'
 
     with open('en_ru_file.txt', 'r', encoding='UTF-8') as file:
         wordlist = []
