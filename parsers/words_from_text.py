@@ -1,11 +1,11 @@
-'''Модуль для создания файла со словами'''
+'''Модуль для создания файла со словами из спарсенного текста.'''
 
 import re
 from parsers import translator
 
-def search(filename: str='text.txt'):
-    '''Функция ищет слова в файле с помощью регулярного выражения
-    и создает новый файл words.txt'''
+def search(filename: str='text.txt') -> None:
+    '''Функция ищет слова в файле с помощью регулярного выражения,
+    создает новый файл words.txt и вызывает следующую функцию.'''
     words = re.compile(r'(\b\w+\b)', re.VERBOSE)
     setwords = set()
     with open('words.txt', 'w') as wordsfile:

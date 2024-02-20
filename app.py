@@ -8,13 +8,12 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    url = ''
     if request.method == 'POST':
         url = request.form.get('message')
         textparser.parser(url)
         return redirect('/translate')
 
-    return render_template('index.html', message=url)
+    return render_template('index.html')
 
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/translate/', methods=['GET', 'POST'])
@@ -25,10 +24,12 @@ def translate():
         for line in file.readlines():
             wordlist.append(line)
         index = randint(0, len(wordlist) - 1)
+        en_word = wordlist[index].split()[0]
+        ru_word = wordlist[index].split()[1]
 
     if request.method == 'POST':
-        return render_template('words.html', words=wordlist[index])
-    return render_template('words.html', words=wordlist[index])
+        return render_template('words.html', en_word=en_word, ru_word=ru_word)
+    return render_template('words.html', en_word=en_word, ru_word=ru_word)
 
 
 

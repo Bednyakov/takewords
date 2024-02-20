@@ -1,11 +1,14 @@
-import requests, bs4
+'''Модуль для парсинга текста из HTML по селектору.'''
+import bs4
+import requests
 from parsers import words_from_text
 
 #  nltk - модуль на будущее (умеет работать с текстом, приводить в нач. форму слова и т.д.)
 
 standart_url = 'https://pypi.org/project/types-aiobotocore-ecr-public/'
 
-def parser(value):
+def parser(value: str) -> None:
+    '''Парсит HTML страницу и текст из нее по селектору. Создает два файла и вызывает след. функцию.'''
     try:
         url = requests.get(value)
         url.raise_for_status()

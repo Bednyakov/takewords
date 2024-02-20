@@ -1,4 +1,10 @@
-<p>Take Words</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TakeWord</title>
+</head>
+<body>
 <form action="" method="post">
     <p>
         <label for="message">Введите ссылку на страницу с документацией:</label>
@@ -9,5 +15,23 @@
         </p>
     </p>
 </form>
+<br />
+<sub>Пожалуйста, используйте ссылки с сайта https://pypi.org/</sub>
+<br />
+<sub>Например:</sub>
+<input type="text" value="https://pypi.org/project/Flask/" id="myInput">
+<button onclick="myFunction()">Скопировать</button>
+<hr align="left" width="350" size="4" color="#ff9900" />
+<marquee behavior="alternate" direction="right">Создание словаря займет некоторое время (~30 сек.).</marquee>
 
-{{ message }}
+<script>
+function myFunction() {
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+</script>
+</body>
+</html>
+

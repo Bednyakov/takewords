@@ -1,8 +1,4 @@
-#  Установка googletrans:
-#  pip uninstall googletrans
-#  pip install googletrans==3.1.0a0
-#  старая версия не работает
-'''Модуль для перевода слов из текстового файла и создания нового файла'''
+'''Модуль для перевода слов из текстового файла и создания словаря.'''
 
 from googletrans import Translator
 import os
@@ -17,7 +13,7 @@ def progress(func):
     return inner
 
 @progress
-def en_ru_translator(filename: str='words.txt'):
+def en_ru_translator(filename: str='words.txt') -> None:
     '''Функция переводит все слова в переданном файле и создает новый файл-словарь'''
     translator = Translator()
     with open('en_ru_file.txt', 'a', encoding='UTF-8') as en_ru_file:
