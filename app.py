@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from parsers import textparser
 from random import randint
+from main import main
 
 
 app = Flask(__name__)
@@ -10,7 +11,7 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         url = request.form.get('message')
-        textparser.parser(url)
+        main(url)
         return redirect('/translate')
 
     return render_template('index.html')

@@ -1,11 +1,12 @@
-'''Модуль для создания файла со словами из спарсенного текста.'''
-
 import re
-from parsers import translator
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def search(filename: str='text.txt') -> None:
-    '''Функция ищет слова в файле с помощью регулярного выражения,
-    создает новый файл words.txt и вызывает следующую функцию.'''
+    '''Функция ищет слова в файле с помощью регулярного выражения и
+    создает новый файл words.txt.'''
     words = re.compile(r'(\b\w+\b)', re.VERBOSE)
     setwords = set()
     with open('words.txt', 'w') as wordsfile:
@@ -17,9 +18,8 @@ def search(filename: str='text.txt') -> None:
 
             for word in setwords:
                 wordsfile.writelines(f'{word}\n')
-    print('3 Ok')
 
-    translator.en_ru_translator()
+            logger.info('Add words.txt')
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')

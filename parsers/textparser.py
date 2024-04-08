@@ -1,32 +1,33 @@
-'''Модуль для парсинга текста из HTML по селектору.'''
-import bs4
+import logging
 import requests
-from parsers import words_from_text
+from bs4 import BeautifulSoup
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 #  nltk - модуль на будущее (умеет работать с текстом, приводить в нач. форму слова и т.д.)
 
 standart_url = 'https://pypi.org/project/types-aiobotocore-ecr-public/'
 
-def parser(value: str) -> None:
-    '''Парсит HTML страницу и текст из нее по селектору. Создает два файла и вызывает след. функцию.'''
+def parser(url: str) -> None:
+    '''Парсит текст из HTML страницы и сохраняет в файл'''
     try:
-        url = requests.get(value)
-        url.raise_for_status()
-        with open('webfile.html', 'wb') as file:
-            file.writelines(url)
-            print('1 Ok')
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-        with open('webfile.html', 'rb') as file:
-            bsfile = bs4.BeautifulSoup(file.read(), 'html.parser')
-            elems = bsfile.select('#description > div')
-            with open('text.txt', 'w', encoding='utf-8') as text_file:
-                text_file.writelines(elems[0].getText())
-                print('2 Ok')
+        article_text = ""
 
-        words_from_text.search()
+        for paragraph in soup.find_all('p'):
+            article_text += paragraph.get_text()
 
-    except:
-        print('Попытка 2')
+        with open('text.txt', 'w', encoding='utf-8') as file:
+            file.write(article_text)
+        logger.info('Add text.txt')
+
+    except Exception as e:
+        logger.error(f'The parser generated an error {e}. Retry with standard url.')
         parser(standart_url)
 
 if __name__ == '__main__':
