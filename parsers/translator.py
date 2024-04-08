@@ -1,31 +1,23 @@
-'''Модуль для перевода слов из текстового файла и создания словаря.'''
-
 from googletrans import Translator
-import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def progress(func):
-    '''Декоратор, сигнализирующий, что функция не зависла'''
-    def inner():
-        print(f'Выполняется функция {func.__name__}. Это может занять несколько минут.')
-        result = func()
-        print(f'Функция {func.__name__} успешно выполнена.\n')
+    '''Декоратор, сигнализирующий, что функция не зависла.'''
+    def inner(arg):
+        result = func(arg)
+        logger.info(f'Функция {func.__name__} обработала {arg}.')
         return result
     return inner
 
 @progress
-def en_ru_translator(filename: str='words.txt') -> None:
-    '''Функция переводит все слова в переданном файле и создает новый файл-словарь'''
+def en_ru_translator(word: str) -> str:
+    '''Функция переводит переданную строку.'''
     translator = Translator()
-    with open('en_ru_file.txt', 'a', encoding='UTF-8') as en_ru_file:
-        with open(filename, 'r', encoding='UTF-8') as file:
-            for word in file.read().split():
-                translation = translator.translate(word, dest='ru')
-                en_ru_file.write(f'{word} {translation.text}\n')
-    print('4 Ok')
-
-    os.remove('webfile.html')  # Удаляем уже ненужные файлы
-    os.remove('text.txt')
-    os.remove('words.txt')
+    translation = translator.translate(word, dest='ru')
+    return f'{word} {translation.text}'
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')
