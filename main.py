@@ -18,17 +18,18 @@ def main(url):
         create_database()
         logger.info('DB create!')
 
-    text_file: str = textparser.parser(url)
-    logger.info(f'Textparser ok!')
+    if url:
+        text_file: str = textparser.parser(url)
+        logger.info(f'Textparser ok!')
 
-    words: set = words_from_text.search(text_file)
-    logger.info(f'Words search ok!')
+        words: set = words_from_text.search(text_file)
+        logger.info(f'Words search ok!')
 
-    data: list = translator.mediator(words)
-    logger.info('Translator ok!')
+        data: list = translator.mediator(words)
+        logger.info('Translator ok!')
 
-    insert_data(data)
-    logger.info('Translated words added to the database.')
+        insert_data(data)
+        logger.info('Translated words added to the database.')
 
 
 if __name__ == '__main__':
