@@ -10,7 +10,7 @@ def search(text: str) -> set:
     words = re.compile(pattern, re.VERBOSE)
     result = set()
 
-    for word in words.findall(text)[:200]:
+    for word in words.findall(text):
         result.add(word.capitalize())
 
     return result

@@ -14,9 +14,10 @@ def insert_data(data: list) -> None:
         cursor = conn.cursor()
 
         for item in data:
-            count, *_ = cursor.execute(f"SELECT COUNT (*) FROM en_ru_dict WHERE words = '{item}'").fetchone()
-            if count == 0:
-                cursor.execute("INSERT INTO en_ru_dict (words) VALUES (?)", (item,))
+            if item is not None:
+                count, *_ = cursor.execute(f"SELECT COUNT (*) FROM en_ru_dict WHERE words = '{item}'").fetchone()
+                if count == 0:
+                    cursor.execute("INSERT INTO en_ru_dict (words) VALUES (?)", (item,))
 
 
 def get_data() -> list:

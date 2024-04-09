@@ -20,7 +20,8 @@ def progress(func):
 @progress
 def en_ru_translator(word: str) -> str:
     '''Функция переводит переданную строку, если её нет в БД.'''
-    words_in_db = get_data()
+    words_in_db = [row.split()[0] for row in get_data()]
+
     if word not in words_in_db:
         translator = Translator()
         try:
