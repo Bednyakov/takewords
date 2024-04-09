@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect
-from parsers import textparser
 from random import randint
 from main import main
 
