@@ -19,9 +19,13 @@ def index():
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/translate/', methods=['GET', 'POST'])
 def translate():
+    wordlist = []
+    index = 0
 
     try:
         wordlist = get_data()
+        if len(wordlist) == 0:
+            return redirect('/')
 
         index = randint(0, len(wordlist) - 1)
         en_word = wordlist[index].split()[0]
@@ -32,6 +36,11 @@ def translate():
         ru_word = 'Словарь не создан.'
 
     if request.method == 'POST':
+        value = request.form.get('delete')
+        if value:
+            delete_word_from_db(wordlist[index])
+            return render_template('words.html', en_word=en_word, ru_word=ru_word)
+
         return render_template('words.html', en_word=en_word, ru_word=ru_word)
     return render_template('words.html', en_word=en_word, ru_word=ru_word)
 

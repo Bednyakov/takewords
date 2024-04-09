@@ -1,4 +1,8 @@
 import sqlite3
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def create_database(name: str = 'translation') -> None:
     with sqlite3.connect(f'{name}.db') as conn:
@@ -34,6 +38,7 @@ def delete_word_from_db(word: str) -> None:
     with sqlite3.connect('translation.db') as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM en_ru_dict WHERE words = ?", (word,))
+        logger.info(f'Delete: {word}')
 
 
 
