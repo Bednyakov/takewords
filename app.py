@@ -10,9 +10,12 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        url = request.form.get('message')
-        main(url)
-        return redirect('/translate')
+        try:
+            url = request.form.get('message')
+            main(url)
+            return redirect('/translate')
+        except TypeError:
+            return redirect('/')
 
     return render_template('index.html')
 
