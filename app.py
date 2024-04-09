@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+from tools.dbmanager import get_data, delete_word_from_db
 from random import randint
 from main import main
 
@@ -20,13 +21,11 @@ def index():
 def translate():
 
     try:
-        with open('en_ru_file.txt', 'r', encoding='UTF-8') as file:
-            wordlist = []
-            for line in file.readlines():
-                wordlist.append(line)
-            index = randint(0, len(wordlist) - 1)
-            en_word = wordlist[index].split()[0]
-            ru_word = wordlist[index].split()[1]
+        wordlist = get_data()
+
+        index = randint(0, len(wordlist) - 1)
+        en_word = wordlist[index].split()[0]
+        ru_word = wordlist[index].split()[1]
 
     except:
         en_word = 'Упс...'

@@ -22,10 +22,7 @@ def parser(url: str) -> str:
         for paragraph in soup.find_all('p'):
             article_text += paragraph.get_text()
 
-        with open('text.txt', 'w', encoding='utf-8') as file:
-            file.write(article_text)
-        logger.info('Add text.txt')
-        return 'text.txt'
+        return article_text
 
     except Exception as e:
         logger.error(f'The parser generated an error {e}. Retry with standard url.')

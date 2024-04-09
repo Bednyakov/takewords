@@ -1,5 +1,6 @@
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count
+from tools.dbmanager import get_data
 from googletrans import Translator
 import logging
 import time
@@ -18,13 +19,18 @@ def progress(func):
 
 @progress
 def en_ru_translator(word: str) -> str:
-    '''Функция переводит переданную строку.'''
-    translator = Translator()
-    translation = translator.translate(word, dest='ru')
-    return f'{word} {translation.text}'
+    '''Функция переводит переданную строку, если её нет в БД.'''
+    words_in_db = get_data()
+    if word not in words_in_db:
+        translator = Translator()
+        try:
+            translation = translator.translate(word, dest='ru')
+            return f'{word} {translation.text}'
+        except Exception as e:
+            logger.info(f'Exception: {e}')
 
-def mediator(words: set) -> str:
-    '''Получает последовательность и в многопоточном режиме вызывает функцию перевода. Записывает результат в файл.'''
+def mediator(words: set) -> list:
+    '''Получает последовательность и в многопоточном режиме вызывает функцию перевода. Возвращает список строк.'''
     start = time.time()
     pool = ThreadPool(processes=cpu_count() * 5)
     result = pool.map(en_ru_translator, words)
@@ -33,10 +39,7 @@ def mediator(words: set) -> str:
     end = time.time()
     logger.info(f'Translator speed: {start - end}')
 
-    with open('en_ru_file.txt', 'a', encoding='UTF-8') as en_ru_file:
-        for item in result:
-            en_ru_file.write(f'{item}\n')
-    logger.info('Add en_ru file!')
+    return result
 
 
 if __name__ == '__main__':

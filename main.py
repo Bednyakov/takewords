@@ -1,10 +1,12 @@
 import os
 import logging
+from tools.dbmanager import create_database, insert_data
 from parsers import textparser, words_from_text, translator
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def main(url):
     """При вызове удаляет словарь, если он уже был создан! Вызывает парсер текста,
@@ -12,18 +14,21 @@ def main(url):
 
     if os.path.exists('en_ru_file.txt'):
         os.remove('en_ru_file.txt')
+    if os.path.exists('translation.db') is False:
+        create_database()
+        logger.info('DB create!')
 
-    text_file = textparser.parser(url)
+    text_file: str = textparser.parser(url)
     logger.info(f'Textparser ok!')
 
-    words = words_from_text.search(text_file)
+    words: set = words_from_text.search(text_file)
     logger.info(f'Words search ok!')
 
-    translator.mediator(words)
+    data: list = translator.mediator(words)
     logger.info('Translator ok!')
 
-    os.remove('text.txt')
-    logger.info('Remove text.txt and words.txt')
+    insert_data(data)
+    logger.info('Translated words added to the database.')
 
 
 if __name__ == '__main__':
