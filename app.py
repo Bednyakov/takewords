@@ -3,7 +3,8 @@ from tools.dbmanager import get_data, delete_word_from_db
 from random import randint
 from main import main
 
-
+host = '127.0.0.1'
+port = 5000
 app = Flask(__name__.split('.')[0])
 
 
@@ -50,7 +51,10 @@ def translate():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('index.html')
+    return f'''Error {error}
+    <form action="/" align="center">
+    <button type="submit" name="home">На главную</button>
+</form>''', 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=host, port=port, debug=True)
