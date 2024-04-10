@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>TakeWord</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<form action="" method="post">
-    <p>
+<div class="form-style-10">
+    <h1 align="center" style="color:Black">TakeWords</h1>
+    <form action="" method="post" class="inner-wrap">
         <label for="message">Введите ссылку на страницу с документацией:</label>
         <input type="url" name="message">
-
-        <p>
         <input type="submit">
-        </p>
-    </p>
-</form>
-<br />
-<sub>Например:</sub>
-<input type="text" value="https://pypi.org/project/Flask/" id="myInput">
-<button onclick="myFunction()">Скопировать</button>
-<hr align="left" width="350" size="4" color="#ff9900" />
-<marquee behavior="alternate" direction="right">Создание словаря займет несколько секунд.</marquee>
+    </form>
+    <form action="" method="dialog" class="inner-wrap">
+        <sub>Например:</sub>
+        <input align="center" type="text" value="https://pypi.org/project/Flask/" id="myInput">
+        <button onclick="myFunction()">Скопировать</button>
+        <hr align="left" width="350" size="4" color="#F8F8F8" />
+        <marquee behavior="alternate" direction="right">Создание словаря займет несколько секунд.</marquee>
+    </form>
+</div>
+
+
 
 <script>
 function myFunction() {
