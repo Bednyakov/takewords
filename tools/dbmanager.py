@@ -17,6 +17,10 @@ def insert_data(data: list) -> None:
     with sqlite3.connect('translation.db') as conn:
         cursor = conn.cursor()
 
+        cursor.execute('''CREATE TABLE IF NOT EXISTS en_ru_dict (
+                                id INTEGER PRIMARY KEY,
+                                words TEXT)''')
+
         for item in data:
             if item is not None:
                 count, *_ = cursor.execute(f"SELECT COUNT (*) FROM en_ru_dict WHERE words = '{item}'").fetchone()
@@ -27,6 +31,12 @@ def insert_data(data: list) -> None:
 def get_data() -> list:
     with sqlite3.connect('translation.db') as conn:
         cursor = conn.cursor()
+
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='en_ru_dict'")
+        table_exists = cursor.fetchone()
+
+        if not table_exists:
+            return []
 
         rows = cursor.execute("SELECT words FROM en_ru_dict").fetchall()
         data = [item[0] for item in rows]
