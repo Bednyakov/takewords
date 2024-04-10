@@ -4,7 +4,7 @@ from random import randint
 from main import main
 
 
-app = Flask(__name__)
+app = Flask(__name__.split('.')[0])
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,6 +48,9 @@ def translate():
     return render_template('words.html', en_word=en_word, ru_word=ru_word)
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
