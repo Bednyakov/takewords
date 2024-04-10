@@ -9,11 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def main(url):
-    """При вызове удаляет словарь, если он уже был создан! Вызывает парсер текста,
-    функцию по выделению слов из текста, функцию-переводчик, создает словарь, удаляет лишние файлы."""
+    """Создает БД, вызывает парсеры и создает словарь."""
 
-    if os.path.exists('en_ru_file.txt'):
-        os.remove('en_ru_file.txt')
     if os.path.exists('translation.db') is False:
         create_database()
         logger.info('DB create!')
