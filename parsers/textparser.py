@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 #  nltk - модуль на будущее (умеет работать с текстом, приводить в нач. форму слова и т.д.)
 
-standart_url = 'https://pypi.org/project/types-aiobotocore-ecr-public/'
+standart_url = 'https://pypi.org/project/Flask/'
 
 def parser(url: str) -> str:
     '''Парсит текст из HTML страницы и сохраняет в файл, возвращает имя файла.'''
@@ -27,6 +27,7 @@ def parser(url: str) -> str:
     except Exception as e:
         logger.error(f'The parser generated an error {e}. Retry with standard url.')
         parser(standart_url)
+
 
 if __name__ == '__main__':
     raise Exception('Запущен модуль!')

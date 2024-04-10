@@ -20,6 +20,7 @@ def index():
 
     return render_template('index.html')
 
+
 @app.route('/translate', methods=['GET', 'POST'])
 @app.route('/translate/', methods=['GET', 'POST'])
 def translate():
@@ -53,8 +54,11 @@ def translate():
 def page_not_found(error):
     return f'''Error {error}
     <form action="/" align="center">
-    <button type="submit" name="home">На главную</button>
+    <button>На главную</button>
 </form>''', 404
 
+
 if __name__ == '__main__':
-    app.run(host=host, port=port, debug=True)
+    app.run(host=host,
+            port=port,
+            debug=True)
