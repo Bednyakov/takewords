@@ -1,7 +1,8 @@
 from multiprocessing.pool import ThreadPool
-from multiprocessing import cpu_count
+from multiprocessing import cpu_count, Pool
 from tools.dbmanager import get_data
 from googletrans import Translator
+import threading
 import logging
 import time
 
@@ -33,13 +34,50 @@ def en_ru_translator(word: str) -> str:
 def mediator(words: set) -> list:
     '''Получает последовательность и в многопоточном режиме вызывает функцию перевода. Возвращает список строк.'''
     start = time.time()
-    pool = ThreadPool(processes=cpu_count() * 5)
-    result = pool.map(en_ru_translator, words)
-    pool.close()
-    pool.join()
-    end = time.time()
-    logger.info(f'Translator speed: {start - end}')
+    with ThreadPool(processes=cpu_count() * 5) as pool:
+        result = pool.map(en_ru_translator, words)
 
+    end = time.time()
+    logger.info(f'Translator on Thread Pool speed: {end - start}')
+
+    return result
+
+def mediator_cpool(words: set) -> list:
+    'Посредник на пуле процессов для экспериментов со скоростью.'
+    start = time.time()
+    with Pool(processes=cpu_count()) as pool:
+        result = pool.map(en_ru_translator, words)
+
+    end = time.time()
+    logger.info(f'Translator on CPU Pool speed: {end - start}')
+    return result
+
+
+def mediator_threads(words: set) -> list:
+    'Посредник на потоках для экспериментов со скоростью.'
+    result = []
+    start = time.time()
+    lock = threading.Lock()
+    def thread_function(word):
+        'Использование мьютекса threading.Lock для безопасного доступа к общему ресурсу result.'
+        nonlocal result
+        translation = en_ru_translator(word)
+        with lock:
+            result.append(translation)
+
+    # Создание и запуск потоков для вызова функции en_ru_translator
+    threads = []
+    for word in words:
+        thread = threading.Thread(target=thread_function, args=(word,))
+        thread.start()
+        threads.append(thread)
+
+    # Ожидание завершения всех потоков
+    for thread in threads:
+        thread.join()
+
+    end = time.time()
+    logger.info(f'Translator on Threads speed: {end - start}')
     return result
 
 
