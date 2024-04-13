@@ -50,6 +50,14 @@ def delete_word_from_db(word: str) -> None:
         cursor.execute("DELETE FROM en_ru_dict WHERE words = ?", (word,))
         logger.info(f'Delete: {word}')
 
+def get_count() -> int:
+    with sqlite3.connect('translation.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT (*) FROM en_ru_dict")
+
+        result, *_ = cursor.fetchone()
+        return result
+
 
 
 if __name__ == '__main__':

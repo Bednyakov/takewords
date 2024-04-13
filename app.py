@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from tools.dbmanager import get_data, delete_word_from_db
+from tools.dbmanager import get_data, delete_word_from_db, get_count
 from random import randint
 from main import main
 
@@ -26,7 +26,7 @@ def index():
 def translate():
     wordlist = []
     index = 0
-
+    count = get_count()
     try:
         wordlist = get_data()
         if len(wordlist) == 0:
@@ -44,10 +44,9 @@ def translate():
         value = request.form.get('delete')
         if value:
             delete_word_from_db(wordlist[index])
-            return render_template('words.html', en_word=en_word, ru_word=ru_word)
+            count = get_count()
 
-        return render_template('words.html', en_word=en_word, ru_word=ru_word)
-    return render_template('words.html', en_word=en_word, ru_word=ru_word)
+    return render_template('words.html', en_word=en_word, ru_word=ru_word, count=count)
 
 
 @app.errorhandler(404)
