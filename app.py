@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect
-from tools.dbmanager import get_data, delete_word_from_db, get_count
+from flask import Flask, render_template, request, redirect, abort, jsonify
+from tools.dbmanager import ManagerDB
 from random import randint
-from main import main
+from main import main, creator
 
 host = '127.0.0.1'
 port = 5000
@@ -10,10 +10,12 @@ app = Flask(__name__.split('.')[0])
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
     if request.method == 'POST':
         try:
             url = request.form.get('message')
-            main(url)
+            main(url, ip_addr)
+            session = creator(ip_addr)
             return redirect('/translate')
         except TypeError:
             return redirect('/')
@@ -26,9 +28,12 @@ def index():
 def translate():
     wordlist = []
     index = 0
-    count = get_count()
+    ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+    session = creator(ip_addr)
+    count = session.get_count()
+
     try:
-        wordlist = get_data()
+        wordlist = session.get_data()
         if len(wordlist) == 0:
             return redirect('/')
 
@@ -43,8 +48,8 @@ def translate():
     if request.method == 'POST':
         value = request.form.get('delete')
         if value:
-            delete_word_from_db(wordlist[index])
-            count = get_count()
+            session.delete_word_from_db(wordlist[index])
+            count = session.get_count()
 
     return render_template('words.html', en_word=en_word, ru_word=ru_word, count=count)
 
@@ -55,6 +60,14 @@ def page_not_found(error):
     <form action="/" align="center">
     <button>На главную</button>
 </form>''', 404
+
+@app.route('/api/v1.0/requests/<string:date>', methods=['GET'])
+def get_task(date):
+    if len(date) != 10:
+        abort(404)
+    data = ManagerDB.get_api_requests(date)
+
+    return jsonify(data)
 
 
 if __name__ == '__main__':

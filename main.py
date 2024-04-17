@@ -1,18 +1,20 @@
 import os
 import logging
-from tools.dbmanager import create_database, insert_data
 from parsers import textparser, words_from_text, translator
+from tools.dbmanager import ManagerDB
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def main(url):
+def main(url, ip_addr):
     """Создает БД, вызывает парсеры и создает словарь."""
 
-    if os.path.exists('translation.db') is False:
-        create_database()
+    session = creator(ip_addr)
+
+    if os.path.exists(session.name) is False:
+        session.create_database()
         logger.info('DB create!')
 
     if url:
@@ -22,12 +24,21 @@ def main(url):
         words: set = words_from_text.search(text_file)
         logger.info(f'Words search ok!')
 
-        data: list = translator.mediator(words)
+        data: list = translator.mediator(words, session)
         logger.info('Translator ok!')
 
-        insert_data(data)
+        session.insert_data(data)
         logger.info('Translated words added to the database.')
+
+        session.insert_requests(session.table, ip_addr, url)
+        logger.info('Request added to the database.')
+
+
+def creator(ip_addr: str):
+    name_db: str = 'translation.db'
+    table: str = 'user_' + str(ip_addr).replace('.', '')
+    return ManagerDB(name_db, table)
 
 
 if __name__ == '__main__':
-    main(url='https://pypi.org/project/types-aiobotocore-ecr-public/')
+    raise Exception('Hello, it is modul!')

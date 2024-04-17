@@ -1,6 +1,5 @@
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count, Pool
-from tools.dbmanager import get_data
 from googletrans import Translator
 import threading
 import logging
@@ -9,6 +8,8 @@ import time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+words_in_db = []
 
 def progress(func):
     '''Декоратор, сигнализирующий, что функция не зависла.'''
@@ -21,7 +22,6 @@ def progress(func):
 @progress
 def en_ru_translator(word: str) -> str:
     '''Функция переводит переданную строку, если её нет в БД.'''
-    words_in_db = [row.split()[0] for row in get_data()]
 
     if word not in words_in_db:
         translator = Translator()
@@ -31,9 +31,11 @@ def en_ru_translator(word: str) -> str:
         except Exception as e:
             logger.info(f'Exception: {e}')
 
-def mediator(words: set) -> list:
+def mediator(words: set, session) -> list:
     '''Получает последовательность и в многопоточном режиме вызывает функцию перевода. Возвращает список строк.'''
     start = time.time()
+    global words_in_db
+    words_in_db = [row.split()[0] for row in session.get_data()]
     with ThreadPool(processes=cpu_count() * 5) as pool:
         result = pool.map(en_ru_translator, words)
 
