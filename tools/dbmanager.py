@@ -12,6 +12,9 @@ class ManagerDB:
         self.table = table_db
 
     def create_database(self) -> None:
+        """
+        Создает таблицу юзера в БД.
+        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
 
@@ -20,6 +23,9 @@ class ManagerDB:
                             words TEXT)''')
 
     def insert_requests(self, user_id: str, ip_addr: str, url: str) -> None:
+        """
+        Добавляет записи в таблицу requests.
+        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
 
@@ -33,6 +39,9 @@ class ManagerDB:
                                     VALUES (?, ?, ?, ?)""", (user_id, ip_addr, url, datetime.now()))
 
     def insert_data(self, data: list) -> None:
+        """
+        Добавляет запись из пары слов в таблицу юзера.
+        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
 
@@ -47,6 +56,9 @@ class ManagerDB:
                         cursor.execute(f"INSERT INTO {self.table} (words) VALUES (?)", (item,))
 
     def get_data(self) -> list:
+        """
+        Получает и возвращает весь список ин. слов из таблицы юзера, если таблица есть.
+        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
 
@@ -62,12 +74,18 @@ class ManagerDB:
             return data
 
     def delete_word_from_db(self, word: str) -> None:
+        """
+        Удаляет пару слов из таблицы юзера.
+        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
             cursor.execute(f"DELETE FROM {self.table} WHERE words = ?", (word,))
             logger.info(f'Delete: {word}')
 
     def get_count(self) -> int:
+        """
+        Возвращает количество записей в таблице юзера.
+        """
         try:
             with sqlite3.connect(self.name) as conn:
                 cursor = conn.cursor()
@@ -80,6 +98,9 @@ class ManagerDB:
 
     @staticmethod
     def get_api_requests(date: str) -> dict:
+        """
+        Возвращает словарь с id, ip и запросами по дате.
+        """
         try:
             with sqlite3.connect('translation.db') as conn:
                 cursor = conn.cursor()
@@ -97,9 +118,38 @@ class ManagerDB:
 
                 if result:
                     return result
-                return {'sorry': ['no', 'data']}
+
+                return {'sorry': ['no', 'data']}, 404
         except sqlite3.OperationalError:
-            return {'sorry': ['no', 'data']}
+            return {'sorry': ['no', 'data']}, 404
+
+    @staticmethod
+    def get_user_url(username: str) -> list:
+        """
+        Возвращает словарь с запросами по юзернейму.
+        """
+        try:
+            with sqlite3.connect('translation.db') as conn:
+                cursor = conn.cursor()
+                result = {}
+
+                data = cursor.execute(
+                    f"SELECT request FROM requests WHERE id = '{username}'").fetchall()
+
+                for item in data:
+                    url, *_ = item
+                    if result.get(username) is None:
+                        result.update({username: [url]})
+                    else:
+                        result[username].append(url)
+
+                if result:
+                    return result
+
+                return {'sorry': ['no', 'data']}, 404
+        except sqlite3.OperationalError:
+            return {'sorry': ['no', 'data']}, 404
+
 
 
 if __name__ == '__main__':
