@@ -15,7 +15,6 @@ def index():
         try:
             url = request.form.get('message')
             main(url, ip_addr)
-            session = creator(ip_addr)
             return redirect('/translate')
         except TypeError:
             return redirect('/')
