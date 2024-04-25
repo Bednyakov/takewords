@@ -7,16 +7,21 @@
 <body>
 <h1 align="center" style="color:Black">API v.1.0</h1>
 <br>
-<h3 align="left" style="color:Black">На настоящий момент API поддерживает GET запросы на три эндпойнта:</h3>
+<h3 align="left" style="color:Black">API поддерживает запросы на эндпойнты:</h3>
 <br>
 <p>
-    1. /api/v1.0/requests/<string:date>
-    > id, ip и запросы по дате.
-    2. /api/v1.0/user_requests/<string:username>
-    > Список запросов по юзернейму.
-    3. /api/v1.0/translate/<string:text>
-    > Переведенный на русский текст.
+    <p>1. /api/v1.0/requests/yyyy-mm-dd</p>
+    <p>> id, ip и запросы по дате.</p>
+<br>
+    <p>2. /api/v1.0/user_requests/юзернейм</p>
+    <p>> Список запросов по юзернейму.</p>
+<br>
 </p>
+<h3 align="left" style="color:Black">GET запросы:</h3>
+<p>Запрос с аргументом {text} на /api/v1.0/translate вернет перевод текста на русском языке.</p>
+<br>
+<h3 align="left" style="color:Black">POST запросы:</h3>
+<p>Запрос с аргументом {text} на /api/v1.0/translate вернет перевод текста на русском языке.</p>
 
 </body>
 </html>

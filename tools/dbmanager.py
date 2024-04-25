@@ -11,10 +11,6 @@ class ManagerDB:
         self.name = name_db
         self.table = table_db
 
-    def create_database(self) -> None:
-        """
-        Создает таблицу юзера в БД.
-        """
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
 

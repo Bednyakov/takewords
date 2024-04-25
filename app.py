@@ -91,12 +91,19 @@ def get_user_url(username):
     return jsonify(data)
 
 
-@app.route('/api/v1.0/translate/<string:text>', methods=['GET'])
-def get_translate_text(text):
+@app.route('/api/v1.0/translate', methods=['GET', 'POST'])
+def translate_text():
     """
     Возвращает переведенный на русский текст.
     """
-    return api_translator(text)
+    if request.method == 'POST':
+        text = request.form.get('text')
+        return api_translator(text)
+    elif request.method == 'GET':
+        text = request.args.get('text')
+        return api_translator(text)
+    else:
+        return jsonify({'error': 'Invalid method'}), 404
 
 
 if __name__ == '__main__':
