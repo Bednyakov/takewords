@@ -4,8 +4,7 @@ from tools.dbmanager import ManagerDB
 from main import main, creator
 from random import randint
 
-host = '127.0.0.1'
-port = 5000
+
 app = Flask(__name__.split('.')[0])
 
 
@@ -107,6 +106,4 @@ def translate_text():
 
 
 if __name__ == '__main__':
-    app.run(host=host,
-            port=port,
-            debug=True)
+    app.run()
