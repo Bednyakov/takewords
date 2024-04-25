@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, abort, jsonify
+from tools.text_translater import api_translator
 from tools.dbmanager import ManagerDB
-from random import randint
 from main import main, creator
+from random import randint
 
-host = '127.0.0.1'
-port = 5000
+
 app = Flask(__name__.split('.')[0])
 
 
@@ -61,16 +61,49 @@ def page_not_found(error):
     <button>На главную</button>
 </form>''', 404
 
+
+@app.route('/api')
+def get_api():
+    return render_template('api.html')
+
 @app.route('/api/v1.0/requests/<string:date>', methods=['GET'])
 def get_task(date):
+    """
+    Возвращает id, ip и запросы по дате.
+    """
     if len(date) != 10:
-        abort(404)
+        return jsonify({'sorry': ['no', 'data']}), 404
     data = ManagerDB.get_api_requests(date)
 
     return jsonify(data)
 
 
+@app.route('/api/v1.0/user_requests/<string:username>', methods=['GET'])
+def get_user_url(username):
+    """
+    Возвращает список запросов по юзернейму.
+    """
+    if len(username) == 0:
+        return jsonify({'sorry': ['no', 'data']}), 404
+    data = ManagerDB.get_user_url(username)
+
+    return jsonify(data)
+
+
+@app.route('/api/v1.0/translate', methods=['GET', 'POST'])
+def translate_text():
+    """
+    Возвращает переведенный на русский текст.
+    """
+    if request.method == 'POST':
+        text = request.form.get('text')
+        return api_translator(text)
+    elif request.method == 'GET':
+        text = request.args.get('text')
+        return api_translator(text)
+    else:
+        return jsonify({'error': 'Invalid method'}), 404
+
+
 if __name__ == '__main__':
-    app.run(host=host,
-            port=port,
-            debug=True)
+    app.run()

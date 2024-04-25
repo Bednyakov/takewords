@@ -13,10 +13,6 @@ def main(url, ip_addr):
 
     session = creator(ip_addr)
 
-    if os.path.exists(session.name) is False:
-        session.create_database()
-        logger.info('DB create!')
-
     if url:
         text_file: str = textparser.parser(url)
         logger.info(f'Textparser ok!')
