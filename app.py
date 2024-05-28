@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, abort, jsonify
 from tools.text_translater import api_translator
 from tools.dbmanager import ManagerDB
+from flask_restful import Api, Resource
 from main import main, creator
 from random import randint
 
 
 app = Flask(__name__.split('.')[0])
+api = Api(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -65,43 +67,47 @@ def page_not_found(error):
 def get_api():
     return render_template('api.html')
 
-@app.route('/api/v1.0/requests/<string:date>', methods=['GET'])
-def get_task(date):
-    """
-    Возвращает id, ip и запросы по дате.
-    """
-    if len(date) != 10:
-        return jsonify({'sorry': ['no', 'data']}), 404
-    data = ManagerDB.get_api_requests(date)
 
-    return jsonify(data)
+class GetDataFromDate(Resource):
+    def get(self, date):
+        """
+        Возвращает id, ip и запросы по дате.
+        """
+        if len(date) != 10:
+            return jsonify({'sorry': ['no', 'data']}), 404
+        data = ManagerDB.get_api_requests(date)
 
-
-@app.route('/api/v1.0/user_requests/<string:username>', methods=['GET'])
-def get_user_url(username):
-    """
-    Возвращает список запросов по юзернейму.
-    """
-    if len(username) == 0:
-        return jsonify({'sorry': ['no', 'data']}), 404
-    data = ManagerDB.get_user_url(username)
-
-    return jsonify(data)
+        return jsonify(data)
 
 
-@app.route('/api/v1.0/translate', methods=['GET', 'POST'])
-def translate_text():
-    """
-    Возвращает переведенный на русский текст.
-    """
-    if request.method == 'POST':
-        text = request.form.get('text')
-        return api_translator(text)
-    elif request.method == 'GET':
+class GetUserUrl(Resource):
+    def get(self, username):
+        """
+        Возвращает список запросов по юзернейму.
+        """
+        if len(username) == 0:
+            return jsonify({'sorry': ['no', 'data']}), 404
+        data = ManagerDB.get_user_url(username)
+
+        return jsonify(data)
+
+
+class TranslateText(Resource):
+    def get(self):
+        """
+        Возвращает переведенный на русский текст.
+        """
         text = request.args.get('text')
         return api_translator(text)
-    else:
-        return jsonify({'error': 'Invalid method'}), 404
+
+    def post(self):
+        text = request.form.get('text')
+        return api_translator(text)
+
+
+api.add_resource(GetDataFromDate, '/api/v1.0/requests/<string:date>')
+api.add_resource(GetUserUrl, '/api/v1.0/user_requests/<string:username>')
+api.add_resource(TranslateText, '/api/v1.0/translate')
 
 
 if __name__ == '__main__':
