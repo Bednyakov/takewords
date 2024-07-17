@@ -37,8 +37,13 @@ def test_get_user_url(client):
     assert b'sorry' in response.data
 
 def test_translate_text(client):
-    response = client.get('/api/v1.0/translate?text=hello')
+    response = client.get('/api/v1.0/translate?text=hello world')
     assert response.status_code == 200
-    assert b'u' in response.data
+    assert b'translate' in response.data
+
+def test_get_words(client):
+    response = client.get('/api/v1.0/words?url=https://pypi.org/project/Flask/')
+    assert response.status_code == 200
+    assert b'Pip' in response.data
 
 

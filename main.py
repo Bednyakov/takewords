@@ -1,11 +1,6 @@
-import os
-import logging
 from parsers import textparser, words_from_text, translator
 from tools.dbmanager import ManagerDB
-
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from tools.loggers import logger
 
 
 def main(url, ip_addr):
@@ -14,6 +9,8 @@ def main(url, ip_addr):
     session = creator(ip_addr)
 
     if url:
+        logger.info(f'IP: {ip_addr} URL: {url}')
+
         text_file: str = textparser.parser(url)
         logger.info(f'Textparser ok!')
 

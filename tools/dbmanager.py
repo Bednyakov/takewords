@@ -1,9 +1,6 @@
 import sqlite3
-import logging
+from tools.loggers import logger
 from _datetime import datetime
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 class ManagerDB:
