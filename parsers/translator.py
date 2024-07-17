@@ -1,13 +1,10 @@
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count, Pool
 from googletrans import Translator
+from tools.loggers import logger
 import threading
-import logging
 import time
 
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 words_in_db = []
 
@@ -19,7 +16,7 @@ def progress(func):
         return result
     return inner
 
-@progress
+#@progress
 def en_ru_translator(word: str) -> str:
     '''Функция переводит переданную строку, если её нет в БД.'''
 
@@ -41,6 +38,7 @@ def mediator(words: set, session) -> list:
 
     end = time.time()
     logger.info(f'Translator on Thread Pool speed: {end - start}')
+    logger.info(f'Переведено {len(words_in_db)} слов.')
 
     return result
 
@@ -51,7 +49,9 @@ def mediator_cpool(words: set) -> list:
         result = pool.map(en_ru_translator, words)
 
     end = time.time()
+
     logger.info(f'Translator on CPU Pool speed: {end - start}')
+    logger.info(f'Переведено {len(words_in_db)} слов.')
     return result
 
 

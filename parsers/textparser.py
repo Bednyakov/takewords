@@ -1,12 +1,7 @@
-import logging
 import requests
 from bs4 import BeautifulSoup
+from tools.loggers import logger
 
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-#  nltk - модуль на будущее (умеет работать с текстом, приводить в нач. форму слова и т.д.)
 
 standart_url = 'https://pypi.org/project/Flask/'
 

@@ -1,8 +1,6 @@
 import re
-import logging
+from tools.loggers import logger
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 def search(text: str) -> set:
     '''Функция ищет англ. слова в файле с помощью регулярного выражения, возвращает множество с результатом.'''
@@ -13,6 +11,7 @@ def search(text: str) -> set:
     for word in words.findall(text):
         result.add(word.capitalize())
 
+    logger.info('Search func completed.')
     return result
 
 if __name__ == '__main__':
