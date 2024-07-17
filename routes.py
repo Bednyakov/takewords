@@ -119,12 +119,14 @@ class TranslateText(Resource):
         Возвращает переведенный на русский текст.
         """
         text = request.args.get('text')
-        result = api_translator(text)
+        ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        result = api_translator(text, ip_addr)
         return jsonify({'translate': result})
 
     def post(self):
         text = request.form.get('text')
-        result = api_translator(text)
+        ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        result = api_translator(text, ip_addr)
         return jsonify({'translate': result})
 
 
