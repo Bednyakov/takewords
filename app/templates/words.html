@@ -5,27 +5,121 @@
     <title>TakeWords</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
     <link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Bitter', serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .form-style-10 {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: Black;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        input[type="url"],
+        input[type="text"],
+        input[type="submit"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        input[type="submit"],
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            border: 2px solid #F8F8F8;
+        }
+
+        marquee {
+            display: block;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-style-10 {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            button,
+            input[type="url"],
+            input[type="text"],
+            input[type="submit"] {
+                font-size: 1em;
+                padding: 8px;
+            }
+
+            marquee {
+                font-size: 0.9em;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="form-style-10">
-    <h1 style="text-align:center; color:Black;">{{ en_word }}</h1>
-
-    <form action="" method="post" style="text-align:center;" class="inner-wrap">
-        <button>Дальше</button>
+    <h1>{{ en_word }}</h1>
+    <form action="" method="post" class="inner-wrap" style="text-align:center;">
+        <button type="submit">Дальше</button>
     </form>
-    <br />
+    <br>
     <marquee behavior="alternate" direction="right" class="inner-wrap">{{ ru_word }}</marquee>
-    <br />
-    <br />
-    <br />
-    <form action="" method="post" style="text-align:center;" class="section">
+    <br>
+    <br>
+    <br>
+    <form action="" method="post" class="section" style="text-align:center;">
         <button type="submit" name="delete" value="delete">Удалить из словаря</button>
     </form>
-    <p>В словаре {{ count }} слов.</p>
-    <br />
-    <form action="/" style="text-align:center;" class="section">
-        <button>На главную</button>
+    <p style="text-align:center;">В словаре {{ count }} слов.</p>
+    <br>
+    <form action="/" class="section" style="text-align:center;">
+        <button type="submit">На главную</button>
     </form>
 </div>
 </body>
 </html>
+
