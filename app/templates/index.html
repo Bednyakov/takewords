@@ -5,27 +5,108 @@
     <title>TakeWord</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
     <link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Bitter', serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-style-10 {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: Black;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        input[type="url"],
+        input[type="text"],
+        input[type="submit"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        input[type="submit"],
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            border: 2px solid #F8F8F8;
+        }
+
+        marquee {
+            display: block;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-style-10 {
+                padding: 15px;
+            }
+
+            label, input[type="url"], input[type="text"], input[type="submit"], button {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="form-style-10">
-    <h1 style="text-align:center; color:Black;">TakeWords</h1>
+    <h1>TakeWords</h1>
     <form action="" method="post" class="inner-wrap">
         <label for="message">Введите ссылку на страницу с документацией:</label>
-        <input type="url" name="message">
+        <input type="url" name="message" required>
         <input type="submit" value="Отправить">
     </form>
     <form action="" method="dialog" class="inner-wrap">
         <sub>Например:</sub>
         <input type="text" value="https://pypi.org/project/Flask/" id="myInput" readonly>
         <button type="button" onclick="myFunction()">Скопировать</button>
-        <hr style="width:350px; border: 2px solid #F8F8F8;">
+        <hr>
         <marquee behavior="alternate" direction="right">Создание словаря займет несколько секунд.</marquee>
     </form>
 </div>
 <footer>
-    <a href="/api" style="text-align:center; display:block;">API</a>
+    <a href="/api">API</a>
     <br>
-    <div style="text-align:center;">by Bednyakov Tema 2024</div>
+    <div>by Bednyakov Tema 2024</div>
 </footer>
 
 <script>
@@ -39,5 +120,6 @@ function myFunction() {
 </script>
 </body>
 </html>
+
 
 
