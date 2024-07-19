@@ -3,25 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>API v.1.0</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h3 {
+            text-align: center;
+            color: Black;
+        }
+        h3 {
+            text-align: left;
+            margin-left: 20px;
+        }
+        p {
+            margin-left: 20px;
+            color: Black;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1 align="center" style="color:Black">API v.1.0</h1>
-<br>
-<h3 align="left" style="color:Black">API поддерживает запросы на эндпойнты:</h3>
-<br>
-<p>
+<h1>API v.1.0</h1>
+
+<h3>API поддерживает запросы на эндпойнты:</h3>
+<div class="endpoint">
     <p>1. /api/v1.0/requests/yyyy-mm-dd</p>
     <p>> id, ip и запросы по дате.</p>
-<br>
+</div>
+<div class="endpoint">
     <p>2. /api/v1.0/user_requests/юзернейм</p>
     <p>> Список запросов по юзернейму.</p>
-<br>
-</p>
-<h3 align="left" style="color:Black">GET запросы:</h3>
+</div>
+
+<h3>GET запросы:</h3>
 <p>Запрос с аргументом {text} на /api/v1.0/translate вернет перевод текста на русском языке.</p>
 <p>Запрос с аргументом {url} на /api/v1.0/words вернет словарь из спарсенного текста страницы.</p>
-<br>
-<h3 align="left" style="color:Black">POST запросы:</h3>
+
+<h3>POST запросы:</h3>
 <p>Запрос с аргументом {text} на /api/v1.0/translate вернет перевод текста на русском языке.</p>
 <p>Запрос с аргументом {url} на /api/v1.0/words вернет словарь из спарсенного текста страницы.</p>
 

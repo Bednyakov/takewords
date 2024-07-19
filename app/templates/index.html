@@ -4,40 +4,40 @@
     <meta charset="UTF-8">
     <title>TakeWord</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="form-style-10">
-    <h1 align="center" style="color:Black">TakeWords</h1>
+    <h1 style="text-align:center; color:Black;">TakeWords</h1>
     <form action="" method="post" class="inner-wrap">
         <label for="message">Введите ссылку на страницу с документацией:</label>
         <input type="url" name="message">
-        <input type="submit">
+        <input type="submit" value="Отправить">
     </form>
     <form action="" method="dialog" class="inner-wrap">
         <sub>Например:</sub>
-        <input align="center" type="text" value="https://pypi.org/project/Flask/" id="myInput">
-        <button onclick="myFunction()">Скопировать</button>
-        <hr align="left" width="350" size="4" color="#F8F8F8" />
+        <input type="text" value="https://pypi.org/project/Flask/" id="myInput" readonly>
+        <button type="button" onclick="myFunction()">Скопировать</button>
+        <hr style="width:350px; border: 2px solid #F8F8F8;">
         <marquee behavior="alternate" direction="right">Создание словаря займет несколько секунд.</marquee>
     </form>
 </div>
 <footer>
-    <a href="/api"><center>API</center></a>
+    <a href="/api" style="text-align:center; display:block;">API</a>
     <br>
-    <a><center>by Bednyakov Tema 2024</center></a>
+    <div style="text-align:center;">by Bednyakov Tema 2024</div>
 </footer>
-
-
 
 <script>
 function myFunction() {
   var copyText = document.getElementById("myInput");
   copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
   document.execCommand("copy");
   alert("Скопирован текст: " + copyText.value);
 }
 </script>
 </body>
 </html>
+
 

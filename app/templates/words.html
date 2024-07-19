@@ -4,30 +4,28 @@
     <meta charset="UTF-8">
     <title>TakeWords</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
 </head>
 <body>
-
 <div class="form-style-10">
-    <h1 align="center" style="color:Black">{{ en_word }}</h1>
+    <h1 style="text-align:center; color:Black;">{{ en_word }}</h1>
 
-    <form action="" method="post" align="center" class="inner-wrap">
+    <form action="" method="post" style="text-align:center;" class="inner-wrap">
         <button>Дальше</button>
     </form>
     <br />
-        <marquee behavior="alternate" direction="right" class="inner-wrap">{{ ru_word }}</marquee>
+    <marquee behavior="alternate" direction="right" class="inner-wrap">{{ ru_word }}</marquee>
     <br />
     <br />
     <br />
-        <form action="" method="post" align="center" class="section">
+    <form action="" method="post" style="text-align:center;" class="section">
         <button type="submit" name="delete" value="delete">Удалить из словаря</button>
-        </form>
+    </form>
     <p>В словаре {{ count }} слов.</p>
     <br />
-        <form action="/" align="center" class="section">
-            <button>На главную</button>
-        </form>
+    <form action="/" style="text-align:center;" class="section">
+        <button>На главную</button>
+    </form>
 </div>
-
 </body>
 </html>
