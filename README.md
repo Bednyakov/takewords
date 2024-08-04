@@ -26,7 +26,7 @@ _____________________________________________________________
 git clone https://github.com/Bednyakov/takewords.git
 ```
 
-2. Установить Docker и Docker Compose на сервер (инструкция)
+2. Установить Docker и Docker Compose на сервер ([инструкция](https://github.com/Bednyakov/takewords/blob/main/FAQ_install_Docker.md))
 
 3. В директории проекта изменить IP в файле nginx.conf на свой
 
